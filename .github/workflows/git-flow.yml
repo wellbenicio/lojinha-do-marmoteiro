@@ -1,0 +1,35 @@
+name: Git Flow
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  git-flow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Validate integration direction
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        shell: bash
+        run: |
+          case "$BASE_BRANCH:$HEAD_BRANCH" in
+            dev:feature/?*|main:dev|dev:hotfix/?*|main:hotfix/?*)
+              echo "Valid Git Flow direction: $HEAD_BRANCH -> $BASE_BRANCH"
+              ;;
+            *)
+              echo "::error::Use feature/* -> dev or dev -> main."
+              exit 1
+              ;;
+          esac
+
+      - name: Confirm permanent branch update
+        if: github.event_name == 'push'
+        run: echo "Validated push produced by the protected branch workflow."

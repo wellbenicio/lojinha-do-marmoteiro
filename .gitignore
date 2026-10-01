@@ -1,0 +1,38 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# production
+/build
+
+# local environment files
+.env
+.env.*
+!.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# tests and quality tools
+/coverage
+/.scannerwork
+
+# Vercel
+.vercel
+
+# operating systems and editors
+.DS_Store
+*.swp
+*.swo
+.idea
+.vscode
+
+# credentials
+*service-account*.json
+firebase-adminsdk*.json
